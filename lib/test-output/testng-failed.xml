@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="TestHomeAndCategory(failed)">
+    <classes>
+      <class name="co.com.exito.testng.qs.ExitoTestQS">
+        <methods>
+          <include name="marketCategoryTest"/>
+          <include name="afterClass"/>
+          <include name="beforeClass"/>
+        </methods>
+      </class> <!-- co.com.exito.testng.qs.ExitoTestQS -->
+    </classes>
+  </test> <!-- TestHomeAndCategory(failed) -->
+</suite> <!-- Failed suite [Suite] -->
