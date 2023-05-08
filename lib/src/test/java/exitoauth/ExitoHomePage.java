@@ -1,7 +1,9 @@
 package exitoauth;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -55,17 +57,20 @@ public class ExitoHomePage extends BasePage {
 		Thread.sleep(5000);
 	}
 
-	public void selectMarketCategory() throws InterruptedException {
+	public String selectCategory() throws InterruptedException {
 		wait.until(ExpectedConditions.visibilityOf(categoriaMenu)).click();
+		String name_cat = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("undefined-nivel2-Tecnología"))).getText();
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("undefined-nivel2-Tecnología"))).click();
-		System.out.println("Categoría seleccionada");
+		
+		return name_cat;
 	}
 
-	public void selectLaptopSubCategory() {
+	public String selectSubCategory() throws InterruptedException {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("Categorías-nivel3-Computadores portátiles")))
 				.click();
-		
-		System.out.println("subcategoría seleccionada");
+		Thread.sleep(4000);
+		String subcategory_tittle = driver.getTitle();
+		return subcategory_tittle;
 	}
 
 	public void selectCity(int index) {
@@ -106,7 +111,7 @@ public class ExitoHomePage extends BasePage {
 		return listaDeProductos;
 	}
 
-	public void addRandomProductsToCart(int numberOfProducts) throws InterruptedException {
+	public String addRandomProductsToCart(int numberOfProducts) throws InterruptedException {
 		List<WebElement> productosSeleccionados = new ArrayList<>();
 		Random rand = new Random();
 		while (productosSeleccionados.size() < numberOfProducts) {
@@ -155,9 +160,11 @@ public class ExitoHomePage extends BasePage {
 
 			Thread.sleep(3000);
 		}
+		
+		return "Productos seleccionados correctamente";
 	}
 
-	public void verifyProductsToCart() throws InterruptedException {
+	public Double verifyProductsToCart() throws InterruptedException {
 		// Abrir la página
 		driver.get(CART_URL);
 
@@ -170,7 +177,6 @@ public class ExitoHomePage extends BasePage {
 		List<WebElement> productos = driver.findElements(By.cssSelector("div[data-molecule-product-detail='true']"));
 
 		// Recorre todos los elementos encontrados e imprime sus datos, incluyendo la
-		// cantidad
 		for (WebElement producto : productos) {
 			String marca = producto
 					.findElement(By.cssSelector("div[data-molecule-product-detail-brand-name='true'] span")).getText();
@@ -185,7 +191,7 @@ public class ExitoHomePage extends BasePage {
 
 			System.out.println("Marca: " + marca);
 			System.out.println("Nombre: " + nombre);
-			System.out.println("Cantidad: " + cantidad); // Nueva línea
+			System.out.println("Cantidad: " + cantidad);
 			System.out.println("Precio: " + precio);
 		}
 
@@ -199,6 +205,22 @@ public class ExitoHomePage extends BasePage {
 		System.out.println("Total general: " + total);
 		System.out.println("#########################");
 		Thread.sleep(5000);
+		
+		total = total.replace("$ ", "").replaceAll("\\.", "").replace(",", ".");
+		double totalDouble = Double.parseDouble(total);
+
+		// Crear un objeto NumberFormat para imprimir el número en formato de moneda
+		NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+
+		System.out.println("Total convertido: " + formatter.format(totalDouble));
+		return totalDouble;
+
+
+
+
+
+	    
+		
 	}
 
 }

@@ -4,27 +4,21 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 public class ExitoMain{
 
 	 public static void main(String[] args) throws InterruptedException {
-	        // Aquí se puede llamar a los métodos de las otras clases
-		 	WebDriverManager.chromedriver().setup();
-		 	ChromeOptions options = new ChromeOptions();
-		 	options.addArguments("--disable-notifications");
-		 	WebDriver driver = new ChromeDriver(options);
+		 DriverConfiguration driverManager = new DriverConfiguration();
+		 WebDriver driver = driverManager.getDriver();
+
 
 	        // Create a new instance of the ExitoHomePage class
 		 	
 	        ExitoHomePage exitoHomePage = new ExitoHomePage(driver);
 	        exitoHomePage.navigateToHomePage();
-	        exitoHomePage.selectMarketCategory();
-	        exitoHomePage.selectLaptopSubCategory();
+	        exitoHomePage.selectCategory();
+	        exitoHomePage.selectSubCategory();
 	        Thread.sleep(8000);
 	        List<WebElement> productos = exitoHomePage.getVisibleProducts();
 	        System.out.println("Productos visibles: " + productos.size());
